@@ -1,14 +1,16 @@
 import './extension-methods.ts'
-import {ensureDir} from "https://deno.land/std@0.166.0/fs/ensure_dir.ts";
-import {config} from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
-import {parse} from "https://deno.land/std@0.167.0/flags/mod.ts";
-import {brightBlue as blue, brightYellow as yellow, underline as ul} from "https://deno.land/std@0.116.0/fmt/colors.ts";
+import {ensureDir} from "https://deno.land/std@0.208.0/fs/ensure_dir.ts";
+import {load} from "https://deno.land/std@0.208.0/dotenv/mod.ts";
+import {parseArgs} from "https://deno.land/std@0.208.0/cli/parse_args.ts";
+import {brightBlue as blue, brightYellow as yellow, underline as ul} from "https://deno.land/std@0.208.0/fmt/colors.ts";
 
-const {day, part, scaffold} = parse(Deno.args, {
-	number: ['day', 'part'],
+const args = parseArgs(Deno.args, {
 	boolean: ['scaffold'],
 	default: {day: 1, part: 0, scaffold: false}
 });
+const day: number = args.day as number;
+const part: number = args.part as number;
+const scaffold: boolean = args.scaffold as boolean;
 if (isNaN(day)) throw new Error('Day number provided is incorrect');
 const dayCode = `${day}`.padStart(2, '0');
 
@@ -22,7 +24,8 @@ if (scaffold) {
 	Deno.exit();
 }
 
-const {ADVENT_YEAR, ADVENT_SESSION_TOKEN} = config();
+const env = await load();
+const {ADVENT_YEAR, ADVENT_SESSION_TOKEN} = env;
 const file = await import(`./days/${dayCode}.ts`);
 const response = await fetch(`https://adventofcode.com/${ADVENT_YEAR}/day/${day}/input`, {headers: {cookie: `session=${ADVENT_SESSION_TOKEN}`}});
 if (!response.ok) throw new Error('Error while fetching input, maybe your session token is expired?');
