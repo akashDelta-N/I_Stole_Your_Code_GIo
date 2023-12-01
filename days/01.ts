@@ -14,7 +14,7 @@ export const p2 = (input: string): number => {
   return input.splitRows().reduce((acc, x) => {
     const [, a] = x.match(textNumsKeys) ?? [];
     const [, b] = x.match(`.*${textNumsKeys}`) ?? [];
-    const calibration = +`${a in textNums ? textNums[a] : a}${b in textNums ? textNums[b] : b}`
+    const calibration = +`${textNums[a] ?? a}${textNums[b] ?? b}`
     return acc + calibration;
   }, 0);
 }
