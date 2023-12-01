@@ -1,8 +1,8 @@
 {
   "tasks": {
-    "start": "deno run -A index.ts",
-    "scaffold": "deno run -A index.ts --scaffold",
-    "test": "deno test -A"
+    "start": "deno run --allow-read=. --allow-net=adventofcode.com index.ts",
+    "scaffold": "deno run --allow-read=. --allow-write=./days index.ts --scaffold",
+    "test": "deno test"
   },
   "imports": {
     "std/": "https://deno.land/std@0.208.0/"
