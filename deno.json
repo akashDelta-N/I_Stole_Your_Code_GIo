@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-read=. --allow-net=adventofcode.com index.ts",
+    "start": "deno run --allow-read=. --allow-hrtime --allow-net=adventofcode.com index.ts",
     "scaffold": "deno run --allow-read=. --allow-write=./days index.ts --scaffold",
     "test": "deno test"
   },
