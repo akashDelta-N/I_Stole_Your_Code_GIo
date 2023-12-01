@@ -1,8 +1,8 @@
 import './extension-methods.ts'
-import {ensureDir} from "https://deno.land/std@0.208.0/fs/ensure_dir.ts";
-import {load} from "https://deno.land/std@0.208.0/dotenv/mod.ts";
-import {parseArgs} from "https://deno.land/std@0.208.0/cli/parse_args.ts";
-import {brightBlue as blue, brightYellow as yellow, underline as ul} from "https://deno.land/std@0.208.0/fmt/colors.ts";
+import {ensureDir} from "std/fs/ensure_dir.ts";
+import {load} from "std/dotenv/mod.ts";
+import {parseArgs} from "std/cli/parse_args.ts";
+import {brightBlue as blue, brightYellow as yellow, underline as ul} from "std/fmt/colors.ts";
 
 const args = parseArgs(Deno.args, {
 	boolean: ['scaffold'],
