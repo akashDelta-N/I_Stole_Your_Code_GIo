@@ -1,6 +1,6 @@
+import {assertEquals} from "std/assert/assert_equals.ts";
 import '../extension-methods.ts';
 import {p1, p2} from './{DAY-NUMBER}.ts';
-import {assertEquals} from "https://deno.land/std@0.208.0/testing/asserts.ts";
 
 const input = '';
 

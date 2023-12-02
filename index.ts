@@ -8,9 +8,7 @@ const args = parseArgs(Deno.args, {
 	boolean: ['scaffold'],
 	default: {day: 1, part: 0, scaffold: false}
 });
-const day: number = args.day as number;
-const part: number = args.part as number;
-const scaffold: boolean = args.scaffold as boolean;
+const [day, part, scaffold] = [args.day, args.part, args.scaffold] as [number, number, boolean];
 if (isNaN(day)) throw new Error('Day number provided is incorrect');
 const dayCode = `${day}`.padStart(2, '0');
 
@@ -24,8 +22,7 @@ if (scaffold) {
 	Deno.exit();
 }
 
-const env = await load();
-const {ADVENT_YEAR, ADVENT_SESSION_TOKEN} = env;
+const {ADVENT_YEAR, ADVENT_SESSION_TOKEN} = await load();
 const file = await import(`./days/${dayCode}.ts`);
 const response = await fetch(`https://adventofcode.com/${ADVENT_YEAR}/day/${day}/input`, {headers: {cookie: `session=${ADVENT_SESSION_TOKEN}`}});
 if (!response.ok) throw new Error('Error while fetching input, maybe your session token is expired?');
