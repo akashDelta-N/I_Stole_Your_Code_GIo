@@ -27,6 +27,5 @@ export const p2 = (input: string): number => {
         maxPerType[type] = Math.max(maxPerType[type], amount);
         return maxPerType;
       }, {red: 0, green: 0, blue: 0}))
-    .map(({red, green, blue}) => red * green * blue)
-    .reduce((acc, power) => acc + power, 0);
+    .reduce((acc, {red, green, blue}) => acc + (red * green * blue ), 0);
 }
