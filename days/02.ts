@@ -1,8 +1,8 @@
 import '../extension-methods.ts';
 
-type Game = {id: string, cubes: Cube[]};
 type CubeType = 'red' | 'green' | 'blue';
 type Cube = {type: CubeType, amount: number};
+type Game = {id: string, cubes: Cube[]};
 
 const processInput = (input: string): Game[] => input.splitRows().map((ln): Game => {
   const [ , id, log] = /^Game (\d+): (.*)$/.exec(ln) ?? [];
@@ -23,9 +23,10 @@ export const p1 = (input: string): number => {
 export const p2 = (input: string): number => {
   return processInput(input)
     .map(({cubes}) =>
-      cubes.reduce((maxPerType: Record<CubeType, number>, {amount, type}) =>
-        ({...maxPerType, [type]: Math.max(maxPerType[type], amount)}),
-        {red: 0, green: 0, blue: 0}))
+      cubes.reduce((maxPerType: Record<CubeType, number>, {amount, type}) => {
+        maxPerType[type] = Math.max(maxPerType[type], amount);
+        return maxPerType;
+      }, {red: 0, green: 0, blue: 0}))
     .map(({red, green, blue}) => red * green * blue)
     .reduce((acc, power) => acc + power, 0);
 }
