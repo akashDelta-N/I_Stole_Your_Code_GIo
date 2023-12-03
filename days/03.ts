@@ -20,9 +20,8 @@ export const p1 = (input: string): number => {
   const matrix = input.splitRows();
   const parts: Array<number> = [];
   matrix.forEach((row, y) => {
-    row.matchMap(/\d+/g, (value) => {
-      const number = value[0];
-      for (let i = value.index ?? 0, x = i; x < i + number.length; x++) {
+    row.matchMap(/\d+/g, ({0: number, index}) => {
+      for (let i = index ?? 0, x = i; x < i + number.length; x++) {
         const [hasPart] = checkNeighbours(matrix, x, y, /^((?![.\d\s]).)*$/);
         if(!hasPart) continue;
         parts.push(Number(number));
@@ -37,9 +36,8 @@ export const p2 = (input: string): number => {
   const matrix = input.splitRows();
   const gears: Record<string, Array<number>> = {};
   matrix.forEach((row, y) => {
-    row.matchMap(/\d+/g, (value) => {
-      const number = value[0];
-      for (let i = value.index ?? 0, x = i; x < i + number.length; x++) {
+    row.matchMap(/\d+/g, ({0: number, index}) => {
+      for (let i = index ?? 0, x = i; x < i + number.length; x++) {
         const [hasPart, coordinates] = checkNeighbours(matrix, x, y, /^\*$/);
         if(!hasPart) continue;
         (gears[coordinates] ??= []).push(Number(number));
