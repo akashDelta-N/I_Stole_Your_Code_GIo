@@ -47,5 +47,6 @@ export const p2 = (input: string): number => {
   });
   return Object.values(gears)
     .filter(gear => gear.length > 1)
-    .map(gear => gear.prod()).sum()
+    .map(gear => gear.prod())
+    .sum()
 }
