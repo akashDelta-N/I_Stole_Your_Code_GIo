@@ -21,6 +21,11 @@ declare global {
 		sum(): number;
 
 		/**
+		 * Returns the product of all the numbers in the array
+		 */
+		prod(): number;
+
+		/**
 		 * Returns the highest number in the array
 		 */
 		max(): number;
@@ -58,6 +63,10 @@ String.prototype.matchMap = function <T>(regex: RegExp, map: (match: RegExpMatch
 
 Array.prototype.sum = function () {
 	return this.reduce((a, b) => a + +b, 0);
+}
+
+Array.prototype.prod = function () {
+	return this.reduce((a, b) => a * +b, 1);
 }
 
 Array.prototype.max = function () {
