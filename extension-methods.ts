@@ -53,6 +53,30 @@ declare global {
 	}
 }
 
+class Matrix<T> extends Array<Array<T>> {
+	constructor(matrix: T[][] | string[]) {
+		if (matrix.length === 0) super([]);
+		super(...matrix as T[][])
+	}
+
+	neighbours(x: number, y: number, dir: 'all' | 'cross' | 'diagonal' = 'all'): Record<string, T | string> {
+		const neighbours: Record<string, T | string> = {};
+		if (dir === 'all' || dir === 'cross') {
+			neighbours[`x${x}y${y - 1}`] = this[y - 1]?.[x];
+			neighbours[`x${x - 1}y${y}`] = this[y]?.[x - 1];
+			neighbours[`x${x + 1}y${y}`] = this[y]?.[x + 1];
+			neighbours[`x${x}y${y + 1}`] = this[y + 1]?.[x];
+		}
+		if (dir === 'all' || dir === 'diagonal') {
+			neighbours[`x${x - 1}y${y - 1}`] = this[y - 1]?.[x - 1];
+			neighbours[`x${x + 1}y${y - 1}`] = this[y - 1]?.[x + 1];
+			neighbours[`x${x - 1}y${y + 1}`] = this[y + 1]?.[x - 1];
+			neighbours[`x${x + 1}y${y + 1}`] = this[y + 1]?.[x + 1];
+		}
+		return neighbours;
+	}
+}
+
 String.prototype.splitRows = function (length = 1) {
 	return this.trim().split(new RegExp(`\\n{${length}}`));
 }
@@ -90,4 +114,4 @@ Array.prototype.count = function <T>(predicate?: (item: T) => boolean) {
 	return this.filter(predicate).length;
 }
 
-export {};
+export { Matrix };
