@@ -11,8 +11,8 @@ const checkNeighbours = (matrix: string[], x: number, y: number, regex: RegExp):
     [`x${x}y${y + 1}`]: matrix[y + 1]?.at(x),
     [`x${x + 1}y${y + 1}`]: matrix[y + 1]?.at(x + 1),
   }
-
-  const loc = Object.keys(neighbours).find(key => neighbours[key] && regex.test(neighbours[key] ?? ''));
+  const loc = Object.keys(neighbours)
+    .find(key => neighbours[key] && regex.test(neighbours[key] ?? ''));
   return [!!loc, loc ?? ''];
 }
 
@@ -22,9 +22,7 @@ export const p1 = (input: string): number => {
   matrix.forEach((row, y) => {
     row.matchMap(/\d+/g, (value) => {
       const number = value[0];
-      const startIndex = value.index ?? 0;
-      const endIndex = startIndex + number.length - 1;
-      for (let x = startIndex; x <= endIndex; x++) {
+      for (let i = value.index ?? 0, x = i; x < i + number.length; x++) {
         const [hasPart] = checkNeighbours(matrix, x, y, /^((?![.\d\s]).)*$/);
         if(!hasPart) continue;
         parts.push(Number(number));
@@ -41,9 +39,7 @@ export const p2 = (input: string): number => {
   matrix.forEach((row, y) => {
     row.matchMap(/\d+/g, (value) => {
       const number = value[0];
-      const startIndex = value.index ?? 0;
-      const endIndex = startIndex + number.length - 1;
-      for (let x = startIndex; x <= endIndex; x++) {
+      for (let i = value.index ?? 0, x = i; x < i + number.length; x++) {
         const [hasPart, coordinates] = checkNeighbours(matrix, x, y, /^\*$/);
         if(!hasPart) continue;
         (gears[coordinates] ??= []).push(Number(number));
