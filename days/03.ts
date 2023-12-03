@@ -2,19 +2,18 @@ import '../extension-methods.ts';
 
 const checkNeighbours = (matrix: string[], x: number, y: number, regex: RegExp): [boolean, string] => {
   const neighbours: Record<string, string | undefined> = {
-    'y-=1;x-=1': matrix[y - 1]?.at(x - 1),
-    'y-=1': matrix[y - 1]?.at(x),
-    'y-=1;x+=1': matrix[y - 1]?.at(x + 1),
-    'x-=1': matrix[y]?.at(x - 1),
-    'x+=1': matrix[y]?.at(x + 1),
-    'y+=1;x-=1': matrix[y + 1]?.at(x - 1),
-    'y+=1': matrix[y + 1]?.at(x),
-    'y+=1;x+=1': matrix[y + 1]?.at(x + 1),
+    [`x${x - 1}y${y - 1}`]: matrix[y - 1]?.at(x - 1),
+    [`x${x}y${y - 1}`]: matrix[y - 1]?.at(x),
+    [`x${x + 1}y${y - 1}`]: matrix[y - 1]?.at(x + 1),
+    [`x${x - 1}y${y}`]: matrix[y]?.at(x - 1),
+    [`x${x + 1}y${y}`]: matrix[y]?.at(x + 1),
+    [`x${x - 1}y${y + 1}`]: matrix[y + 1]?.at(x - 1),
+    [`x${x}y${y + 1}`]: matrix[y + 1]?.at(x),
+    [`x${x + 1}y${y + 1}`]: matrix[y + 1]?.at(x + 1),
   }
 
-  const key = Object.keys(neighbours).find(key => !!neighbours[key] && regex.test(neighbours[key] ?? ''));
-  if (key) eval(key);
-  return [!!key, `x${x}y${y}`];
+  const loc = Object.keys(neighbours).find(key => neighbours[key] && regex.test(neighbours[key] ?? ''));
+  return [!!loc, loc ?? ''];
 }
 
 export const p1 = (input: string): number => {
