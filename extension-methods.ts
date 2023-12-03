@@ -53,25 +53,29 @@ declare global {
 	}
 }
 
-class Matrix<T> extends Array<Array<T>> {
+class Matrix<T = string> extends Array<Array<T>> {
 	constructor(matrix: T[][] | string[]) {
 		if (matrix.length === 0) super([]);
 		super(...matrix as T[][])
 	}
 
+	get(x: number, y: number): T | undefined {
+		return this[y]?.[x];
+	}
+
 	neighbours(x: number, y: number, dir: 'all' | 'cross' | 'diagonal' = 'all'): Record<string, T | string> {
 		const neighbours: Record<string, T | string> = {};
 		if (dir === 'all' || dir === 'cross') {
-			neighbours[`x${x}y${y - 1}`] = this[y - 1]?.[x];
-			neighbours[`x${x - 1}y${y}`] = this[y]?.[x - 1];
-			neighbours[`x${x + 1}y${y}`] = this[y]?.[x + 1];
-			neighbours[`x${x}y${y + 1}`] = this[y + 1]?.[x];
+			neighbours[`x${x}y${y - 1}`] = this.get(x, y - 1)!;
+			neighbours[`x${x - 1}y${y}`] = this.get(x - 1, y)!;
+			neighbours[`x${x + 1}y${y}`] = this.get(x + 1, y)!;
+			neighbours[`x${x}y${y + 1}`] = this.get(x, y + 1)!;
 		}
 		if (dir === 'all' || dir === 'diagonal') {
-			neighbours[`x${x - 1}y${y - 1}`] = this[y - 1]?.[x - 1];
-			neighbours[`x${x + 1}y${y - 1}`] = this[y - 1]?.[x + 1];
-			neighbours[`x${x - 1}y${y + 1}`] = this[y + 1]?.[x - 1];
-			neighbours[`x${x + 1}y${y + 1}`] = this[y + 1]?.[x + 1];
+			neighbours[`x${x - 1}y${y - 1}`] = this.get(x - 1, y - 1)!;
+			neighbours[`x${x + 1}y${y - 1}`] = this.get(x + 1, y - 1)!;
+			neighbours[`x${x - 1}y${y + 1}`] = this.get(x - 1, y + 1)!;
+			neighbours[`x${x + 1}y${y + 1}`] = this.get(x + 1, y + 1)!;
 		}
 		return neighbours;
 	}
