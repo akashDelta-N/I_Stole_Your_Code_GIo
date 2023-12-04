@@ -7,10 +7,9 @@ export const p1 = (input: string): number =>
   }, 0);
 
 export const p2 = (input: string): number => {
-  const textNums: Record<string, number> = {one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9};
-  const keys = Object.keys(textNums).join("|")
-  return input.matchMap(
-    RegExp(`(\\d|${keys})(?:.*(\\d|${keys}))?`, 'gm'),
-    ([, a, b]) => Number(`${textNums[a] ?? a}${textNums[b ?? a] ?? b ?? a}`))
-  .reduce((acc, x) => acc + x, 0);
+  const digits: Record<string, number> = {one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9};
+  const keys = `(\\d|${Object.keys(digits).join("|")})`
+  return input
+    .matchMap(RegExp(`${keys}(?:.*${keys})?`, 'gm'), ([, a, b]) => `${digits[a] ?? a}${digits[b ?? a] ?? b ?? a}`)
+    .reduce((acc, x) => acc + Number(x), 0);
 }
