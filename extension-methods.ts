@@ -55,7 +55,6 @@ declare global {
 
 class Matrix<T = string> extends Array<Array<T>> {
 	constructor(matrix: T[][] | string[]) {
-		if (matrix.length === 0) super([]);
 		super(...matrix as T[][])
 	}
 
