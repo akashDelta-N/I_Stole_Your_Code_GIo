@@ -3,7 +3,7 @@ import '../extension-methods.ts';
 type Card = { winning: number[], numbers: number[], cardCount: number };
 
 const processInput = (input: string, map: (card: Card, index: number, cards: Card[]) => number) =>
-  input.matchMap(/^.+:\s+([\d\s]+)\s\|\s([\s\d]+)$/gm, ([, win, num]) => {
+  input.matchMap(/^.+:\s+([\d\s]+)\s\|\s([\s\d]+)$/gm, ([, win, num]): Card => {
     const parseNums = (nums: string) => nums.split(/\s+/g).map(Number);
     return { winning: parseNums(win), numbers: parseNums(num), cardCount: 1 };
   }).map(map).reduce((acc, x) => acc + x, 0);
