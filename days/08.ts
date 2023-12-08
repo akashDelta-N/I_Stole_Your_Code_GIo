@@ -30,6 +30,8 @@ export const p2 = (input: string): number => {
       return !nodeEnded;
     }).map(map => maps[map][instructions[steps % instructions.length]]);
   }
+
+  // https://en.wikipedia.org/wiki/Least_common_multiple
   return leastSteps.reduce((acc, x) => {
     const gcd = (a: number, b: number): number => b ? gcd(b, a % b) : a;
     return acc * x / gcd(acc, x);
