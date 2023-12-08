@@ -15,7 +15,7 @@ export const p1 = (input: string): number => {
   const { instructions, maps } = processInput(input);
   let steps = 0
   for (let currentNode = "AAA"; currentNode !== "ZZZ"; steps++)
-    currentNode = maps[currentNode]?.[instructions[steps % instructions.length]];
+    currentNode = maps[currentNode][instructions[steps % instructions.length]];
   return steps
 }
 
