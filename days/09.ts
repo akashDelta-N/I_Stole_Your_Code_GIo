@@ -1,7 +1,7 @@
 import '../extension-methods.ts';
 
 const processInput = (input: string, map: (sequence: number[]) => number): number =>
-  input.splitRows().map((x) => x.split(' ').map(Number)).map(map).reduce((acc, x) => acc + x, 0);
+  input.splitRows().map((x) => map(x.split(' ').map(Number))).reduce((acc, x) => acc + x, 0);
 
 const next = (sequence: number[]): number => {
   if (sequence.every(x => x === 0)) return 0;
@@ -17,4 +17,4 @@ const prev = (sequence: number[]): number => {
 
 export const p1 = (input: string): number => processInput(input, next);
 
-export const p2 = (input: string): number => processInput(input , prev);
+export const p2 = (input: string): number => processInput(input, prev);
