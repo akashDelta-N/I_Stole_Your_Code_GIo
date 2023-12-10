@@ -1,32 +1,6 @@
 import {assertEquals} from "std/assert/assert_equals.ts";
 import '../extension-methods.ts';
-import {p1, p2} from './10.ts';
-
-// const inputSimple = '' +
-//   '.....\n' +
-//   '.S-7.\n' +
-//   '.|.|.\n' +
-//   '.L-J.\n' +
-//   '.....';
-
-// Deno.test('it should run the first part of day 10 correctly', () => {
-//   const result = p1(inputSimple);
-//   const expected = 4;
-//   assertEquals(result, expected);
-// });
-
-// const inputComplex = '' +
-//   '..F7.\n' +
-//   '.FJ|.\n' +
-//   'SJ.L7\n' +
-//   '|F--J\n' +
-//   'LJ...';
-
-// Deno.test('it should run the first part of day 10 correctly', () => {
-//   const result = p1(inputComplex);
-//   const expected = 8;
-//   assertEquals(result, expected);
-// });
+import {p2} from './10.ts';
 
 const inputLarge = '' +
   '...........\n' +
