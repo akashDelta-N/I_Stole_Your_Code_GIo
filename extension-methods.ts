@@ -54,6 +54,10 @@ declare global {
 }
 
 class Matrix<T = string> extends Array<Array<T>> {
+	get width(): number {
+		return this[0].length;
+	}
+
 	constructor(matrix: T[][] | string[]) {
 		super(...matrix as T[][])
 	}
