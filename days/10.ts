@@ -31,18 +31,18 @@ export const p1 = (input: string): number => {
   const {matrix, startNode, startDirection } = processInput(input);
   const loops = new Array<number>();
   startNode.forEach((direction) => {
-    const visited = new Set<string>([]);
+    const visited = new Set<string>([`x${startDirection.x}y${startDirection.y}`]);
     for(let queue = [], current: XY = move(startDirection, direction); current; current = queue.shift()!) {
       const key = `x${current.x}y${current.y}`;
       if (visited.has(key)) continue;
       visited.add(key);
-      const directions = matrix.get(current.x, current.y)!.directions;
-      if (!directions?.length) break;
+      const directions = matrix.get(current.x, current.y)?.directions;
+      if (!directions?.length) continue;
       queue.push(...directions.map(dir => move(current, dir)).filter(({x, y}) => !visited.has(`x${x}y${y}`)));
     }
     loops.push(visited.size);
   });
-  return Math.floor(Math.max(...loops) / 2);
+  return Math.floor((Math.max(...loops)) / 2);
 }
 
 export const p2 = (input: string): number => {
