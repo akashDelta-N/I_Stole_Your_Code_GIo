@@ -10,22 +10,18 @@ const processInput = (input: string) =>
 		groups: groupsStr.split(',').map(Number),
 	}));
 
-// https://en.wikipedia.org/wiki/Memoization
 const memoizeFunction = (fn: FindArrangementsFn): FindArrangementsFn => {
-	const cache = new Map();
-	return (...args: [Springs, number[], number]) => {
+	const cache: Record<string, number> = {};
+	return (...args) => {
 		const key = JSON.stringify(args);
-		if (cache.has(key)) return cache.get(key);
-		const result = fn(...args);
-		cache.set(key, result);
-		return result;
+		return cache[key] ??= fn(...args);
 	};
 };
 
 const find = memoizeFunction((springs: Springs, groups: number[], i: number): number => {
 	const [spring, ...remainingSprings] = springs;
 	const [group, ...remainingGroups] = groups;
-	const running = Boolean(~i);
+	const running = i >= 0;
 
 	if (!spring) return Number(!groups.length && !running || groups.length === 1 && group === i);
 	const operational = spring === status.Operational;
