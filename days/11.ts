@@ -25,4 +25,4 @@ export const p1 = (input: string, factor = 2): number => {
 		}, 0);
 };
 
-export const p2 = (input: string): number => p1(input, 1_000_000);
+export const p2 = (input: string): number => p1(input, 1e6);
