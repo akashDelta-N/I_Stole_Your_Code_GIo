@@ -12,15 +12,15 @@ const processInput = (input: string) =>
 
 // https://en.wikipedia.org/wiki/Memoization
 const memoizeFunction = (fn: FindArrangementsFn): FindArrangementsFn => {
-  const cache = new Map();
-  return (...args: [Springs, number[], number]) => {
-    const key = JSON.stringify(args);
-    if (cache.has(key)) return cache.get(key);
-    const result = fn(...args);
-    cache.set(key, result);
-    return result;
-  };
-}
+	const cache = new Map();
+	return (...args: [Springs, number[], number]) => {
+		const key = JSON.stringify(args);
+		if (cache.has(key)) return cache.get(key);
+		const result = fn(...args);
+		cache.set(key, result);
+		return result;
+	};
+};
 
 const find = memoizeFunction((springs: Springs, groups: number[], i: number): number => {
 	const [spring, ...remainingSprings] = springs;
@@ -39,7 +39,6 @@ const find = memoizeFunction((springs: Springs, groups: number[], i: number): nu
 	arrangements += (unknown || operational) && running && i === group ? find(remainingSprings, remainingGroups, -1) : 0;
 	return arrangements;
 });
-
 
 export const p1 = (input: string): number =>
 	processInput(input).map(({ springs, groups }) => find(springs, groups, -1)).sum();
