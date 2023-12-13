@@ -59,7 +59,7 @@ export const p1 = (input: string): number =>
 
 export const p2 = (input: string): number =>
 	processInput(input).map(({ springs: s, groups: g }) => {
-		let springs: ConditionRecords = [...s, '?', ...s, '?', ...s, '?', ...s, '?', ...s];
-		let groups = [...g, ...g, ...g, ...g, ...g];
+    const springs: ConditionRecords = [...s, '?', ...s, '?', ...s, '?', ...s, '?', ...s];
+		const groups = [...g, ...g, ...g, ...g, ...g];
 		return find(springs, groups, -1);
 	}).sum();
