@@ -38,7 +38,8 @@ function findArrangements(springs: ConditionRecords, groups: number[], i: number
 	let arrangements = 0;
 	arrangements += groupSizeReached && operational ? find(remainingSprings, remainingGroups, -1) : 0;
 	arrangements += groupSizeReached && unknown ? find(remainingSprings, remainingGroups, -1) : 0;
-	arrangements += unknown || damaged ? find(remainingSprings, groups, running ? i + 1 : 1) : 0;
+	arrangements += (unknown || damaged) && running ? find(remainingSprings, groups,  i + 1) : 0;
+  arrangements += (unknown || damaged) && !running ? find(remainingSprings, groups,  1) : 0;
 	arrangements += (unknown || operational) && !running ? find(remainingSprings, groups, -1) : 0;
 	return arrangements;
 }
