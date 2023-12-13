@@ -1,6 +1,10 @@
 import '../extension-methods.ts';
 
-enum Condition { Damaged = '#', Operational = '.', Unknown = '?' }
+enum Condition {
+	Damaged = '#',
+	Operational = '.',
+	Unknown = '?',
+}
 type ConditionRecords = Array<Condition>;
 type FindArrangementsFn = (springs: ConditionRecords, groups: number[], i: number) => number;
 
@@ -38,8 +42,8 @@ function findArrangements(springs: ConditionRecords, groups: number[], i: number
 	let arrangements = 0;
 	arrangements += groupSizeReached && operational ? find(remainingSprings, remainingGroups, -1) : 0;
 	arrangements += groupSizeReached && unknown ? find(remainingSprings, remainingGroups, -1) : 0;
-	arrangements += (unknown || damaged) && running ? find(remainingSprings, groups,  i + 1) : 0;
-  arrangements += (unknown || damaged) && !running ? find(remainingSprings, groups,  1) : 0;
+	arrangements += (unknown || damaged) && running ? find(remainingSprings, groups, i + 1) : 0;
+	arrangements += (unknown || damaged) && !running ? find(remainingSprings, groups, 1) : 0;
 	arrangements += (unknown || operational) && !running ? find(remainingSprings, groups, -1) : 0;
 	return arrangements;
 }
@@ -49,7 +53,7 @@ export const p1 = (input: string): number =>
 
 export const p2 = (input: string): number =>
 	processInput(input).map(({ springs: s, groups: g }) => {
-    const springs = [...s, '?', ...s, '?', ...s, '?', ...s, '?', ...s] as ConditionRecords;
+		const springs = [...s, '?', ...s, '?', ...s, '?', ...s, '?', ...s] as ConditionRecords;
 		const groups: number[] = [...g, ...g, ...g, ...g, ...g];
 		return find(springs, groups, -1);
 	}).sum();
