@@ -12,10 +12,7 @@ const processInput = (input: string) =>
 
 const memoizeFunction = (fn: FindArrangementsFn): FindArrangementsFn => {
 	const cache: Record<string, number> = {};
-	return (...args) => {
-		const key = JSON.stringify(args);
-		return cache[key] ??= fn(...args);
-	};
+	return (...args) => cache[JSON.stringify(args)] ??= fn(...args);
 };
 
 const find = memoizeFunction((springs: Springs, groups: number[], i: number): number => {
