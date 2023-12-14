@@ -14,8 +14,8 @@ Array.prototype.rotate = function () {
 
 Array.prototype.moveRocks = function () {
 	return this.map((row) =>
-		row.replaceAll(/[.O]+/g, (roundRocksSpaces: string) => {
-			return roundRocksSpaces.replace(/\./g, '').padStart(roundRocksSpaces.length, '.');
+		row.replaceAll(/[.O]+/g, (cell: string) => {
+			return cell.replace(/\./g, '').padStart(cell.length, '.');
 		})
 	);
 };
