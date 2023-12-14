@@ -4,7 +4,7 @@ declare global {
 	interface Array<T> {
 		rotate(): Array<T>;
 		moveRocks(): Array<T>;
-    getTotalLoad(): number;
+		getTotalLoad(): number;
 	}
 }
 
@@ -21,12 +21,12 @@ Array.prototype.moveRocks = function () {
 };
 
 Array.prototype.getTotalLoad = function () {
-  return this.reduce((acc, row, i) => {
-    const loadMultiplier = row.length - i;
-    const rockCount = [...row].count((cell) => cell === 'O');
-    return acc + (rockCount * loadMultiplier)
-  }, 0);
-}
+	return this.reduce((acc, row, i) => {
+		const loadMultiplier = row.length - i;
+		const rockCount = [...row].count((cell) => cell === 'O');
+		return acc + (rockCount * loadMultiplier);
+	}, 0);
+};
 
 export const p1 = (input: string): number =>
 	input.splitRows().rotate().moveRocks().rotate().rotate().rotate().getTotalLoad();
