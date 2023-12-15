@@ -9,7 +9,7 @@ export const p2 = (input: string): number => {
 	const boxes = Array.from({ length: 256 }, (): Record<string, number | null> => ({}));
 	input.replaceAll(',', '\n').matchMap(
 		/^(\w+)([-=])(\d+)?$/gm,
-		([, label, operation, length]) => boxes[hash(label)][label] = operation === '=' ? Number(length) : null,
+		([, label, op, length]) => boxes[hash(label)][label] = op === '=' ? Number(length) : null,
 	);
 	return boxes.reduce((acc, box, y) => {
 		const allLengths = Object.values(box).filter(Boolean) as number[];
