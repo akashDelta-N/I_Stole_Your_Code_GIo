@@ -7,7 +7,7 @@ export const p1 = (input: string): number => input.split(',').map(hash).sum();
 
 export const p2 = (input: string): number => {
 	const boxes = Array.from({ length: 256 }, (): Record<string, number> => ({}));
-	input.replace(/\s+/, '').replaceAll(',', '\n').matchMap(
+	input.replaceAll(',', '\n').matchMap(
 		/^(\w+)[-=](\d+)?$/gm,
 		([, label, focalLength]) => {
 			const box = boxes[hash(label)];
