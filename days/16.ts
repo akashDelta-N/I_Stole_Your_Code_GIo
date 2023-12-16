@@ -12,36 +12,22 @@ const processBeam = (matrix: Matrix, startBeam: Beam) => {
 		if (!neighbours.length) continue;
 		const [next, tileValue] = neighbours[0];
 		if (!tileValue || visitedFromDirection.has(`${next}-${direction}`)) continue;
-		visitedFromDirection.add(`${next}-${direction}`);
 		visited.add(next);
-		const processAction: Record<string, () => void> = {
-			'.': () => beams.push({ direction, xy: next }),
+		visitedFromDirection.add(`${next}-${direction}`);
+		const findNextDirection: Record<string, () => Direction[]> = {
+			'.': () => [direction],
+      '|': () => direction === 'up' || direction === 'down' ? [direction] : ['up', 'down'],
+      '-': () => direction === 'left' || direction === 'right' ? [direction] : ['left', 'right'],
 			'/': () => {
 				const dirs: Record<string, Direction> = { 'up': 'right', 'down': 'left', 'left': 'down', 'right': 'up' };
-				beams.push({ direction: dirs[direction], xy: next });
+				return [dirs[direction]];
 			},
 			'\\': () => {
 				const dirs: Record<string, Direction> = { 'up': 'left', 'down': 'right', 'left': 'up', 'right': 'down' };
-				beams.push({ direction: dirs[direction], xy: next });
-			},
-			'|': () => {
-				if (direction === 'up' || direction === 'down') {
-					beams.push({ direction, xy: next });
-				} else {
-					beams.push({ direction: 'up', xy: next });
-					beams.push({ direction: 'down', xy: next });
-				}
-			},
-			'-': () => {
-				if (direction === 'left' || direction === 'right') {
-					beams.push({ direction, xy: next });
-				} else {
-					beams.push({ direction: 'left', xy: next });
-					beams.push({ direction: 'right', xy: next });
-				}
+				return [dirs[direction]];
 			},
 		};
-		processAction[tileValue]();
+    findNextDirection[tileValue]().forEach((dir) => beams.push({ direction: dir, xy: next }));
 	}
 	return visited.size;
 };
