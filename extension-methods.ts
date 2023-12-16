@@ -53,7 +53,7 @@ declare global {
 	}
 }
 
-export type Direction = 'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-right' | 'down-left' | 'down-right' | 'all' | 'cross' | 'diagonal';
+export type Direction = '↑' | '↓' | '↕' | '←' | '→' | '↔' | '↖' | '↘' | '⤡' | '↗' | '↙' | '⤢' | '*' | '+' | 'x';
 
 class Matrix<T = string> extends Array<Array<T>> {
 	get width(): number {
@@ -83,20 +83,20 @@ class Matrix<T = string> extends Array<Array<T>> {
 		this.set(Number(x), Number(y), value);
 	}
 
-	neighbours(x: number, y: number, dir: Direction = "all"): Record<string, T | string> {
+	neighbours(x: number, y: number, dir: Direction = "*"): Record<string, T | string> {
 		const neighbours: Record<string, T | string> = {};
-		if (dir === 'all' || dir === 'cross' || dir === 'up') neighbours[`x${x}y${y - 1}`] = this.get(x, y - 1)!;
-		if (dir === 'all' || dir === 'cross' || dir === 'down') neighbours[`x${x}y${y + 1}`] = this.get(x, y + 1)!;
-		if (dir === 'all' || dir === 'cross' || dir === 'left') neighbours[`x${x - 1}y${y}`] = this.get(x - 1, y)!;
-		if (dir === 'all' || dir === 'cross' || dir === 'right') neighbours[`x${x + 1}y${y}`] = this.get(x + 1, y)!;
-		if (dir === 'all' || dir === 'diagonal' || dir === 'up-left') neighbours[`x${x - 1}y${y - 1}`] = this.get(x - 1, y - 1)!;
-		if (dir === 'all' || dir === 'diagonal' || dir === 'up-right') neighbours[`x${x + 1}y${y - 1}`] = this.get(x + 1, y - 1)!;
-		if (dir === 'all' || dir === 'diagonal' || dir === 'down-left') neighbours[`x${x - 1}y${y + 1}`] = this.get(x - 1, y + 1)!;
-		if (dir === 'all' || dir === 'diagonal' || dir === 'down-right') neighbours[`x${x + 1}y${y + 1}`] = this.get(x + 1, y + 1)!;
+		if ('*+↕↑'.includes(dir)) neighbours[`x${x}y${y - 1}`] = this.get(x, y - 1)!;
+		if ('*+↕↓'.includes(dir)) neighbours[`x${x}y${y + 1}`] = this.get(x, y + 1)!;
+		if ('*+↔←'.includes(dir)) neighbours[`x${x - 1}y${y}`] = this.get(x - 1, y)!;
+		if ('*+↔→'.includes(dir)) neighbours[`x${x + 1}y${y}`] = this.get(x + 1, y)!;
+		if ('*x⤡↖'.includes(dir)) neighbours[`x${x - 1}y${y - 1}`] = this.get(x - 1, y - 1)!;
+		if ('*x⤡↘'.includes(dir)) neighbours[`x${x + 1}y${y + 1}`] = this.get(x + 1, y + 1)!;
+		if ('*x⤢↗'.includes(dir)) neighbours[`x${x + 1}y${y - 1}`] = this.get(x + 1, y - 1)!;
+		if ('*x⤢↙'.includes(dir)) neighbours[`x${x - 1}y${y + 1}`] = this.get(x - 1, y + 1)!;
 		return neighbours;
 	}
 
-	neighboursByString(coord: string, dir: Direction = "all"): Record<string, T | string> {
+	neighboursByString(coord: string, dir: Direction = "*"): Record<string, T | string> {
 		const [, x, y] = /x(-?\d+)y(-?\d+)/.exec(coord)!;
 		return this.neighbours(Number(x), Number(y), dir);
 	}

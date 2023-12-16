@@ -16,14 +16,14 @@ const processBeam = (matrix: Matrix, startBeam: Beam) => {
 		visitedFromDirection.add(`${next}-${direction}`);
 		const findNextDirection: Record<string, () => Direction[]> = {
 			'.': () => [direction],
-			'|': () => direction === 'up' || direction === 'down' ? [direction] : ['up', 'down'],
-			'-': () => direction === 'left' || direction === 'right' ? [direction] : ['left', 'right'],
+			'|': () => direction === '↑' || direction === '↓' ? [direction] : ['↑', '↓'],
+			'-': () => direction === '←' || direction === '→' ? [direction] : ['←', '→'],
 			'/': () => {
-				const dirs: Record<string, Direction> = { 'up': 'right', 'down': 'left', 'left': 'down', 'right': 'up' };
+				const dirs: Record<string, Direction> = { '↑': '→', '↓': '←', '←': '↓', '→': '↑' };
 				return [dirs[direction]];
 			},
 			'\\': () => {
-				const dirs: Record<string, Direction> = { 'up': 'left', 'down': 'right', 'left': 'up', 'right': 'down' };
+				const dirs: Record<string, Direction> = { '↑': '←', '↓': '→', '←': '↑', '→': '↓' };
 				return [dirs[direction]];
 			},
 		};
@@ -34,19 +34,19 @@ const processBeam = (matrix: Matrix, startBeam: Beam) => {
 
 export const p1 = (input: string): number => {
 	const matrix = new Matrix(input.splitRows().map((x) => [...x]));
-	return processBeam(matrix, { direction: 'right', xy: 'x-1y0' });
+	return processBeam(matrix, { direction: '→', xy: 'x-1y0' });
 };
 
 export const p2 = (input: string): number => {
 	const matrix = new Matrix(input.splitRows().map((x) => [...x]));
 	const startBeams: Beam[] = [];
 	for (let x = 0; x < matrix.width; x++) {
-		startBeams.push({ direction: 'down', xy: `x${x}y-1` });
-		startBeams.push({ direction: 'up', xy: `x${x}y${matrix.length}` });
+		startBeams.push({ direction: '↓', xy: `x${x}y-1` });
+		startBeams.push({ direction: '↑', xy: `x${x}y${matrix.length}` });
 	}
 	for (let y = 0; y < matrix.length; y++) {
-		startBeams.push({ direction: 'right', xy: `x-1y${y}` });
-		startBeams.push({ direction: 'left', xy: `x${matrix.width}y${y}` });
+		startBeams.push({ direction: '→', xy: `x-1y${y}` });
+		startBeams.push({ direction: '←', xy: `x${matrix.width}y${y}` });
 	}
 	return Math.max(...startBeams.map((startBeam) => processBeam(matrix, startBeam)));
 };
