@@ -4,30 +4,26 @@ type Beam = { direction: Direction; xy: string };
 
 const processBeam = (matrix: Matrix, startBeam: Beam) => {
 	const beams: Beam[] = [startBeam];
-	const visited = new Set<string>([]);
-	const visitedFromDirection = new Set<string>([]);
+	const visited = new Set<string>();
+	const visitedFromDirection = new Set<string>();
+	const mirrorSlantedRight: Record<string, Direction> = { '↑': '→', '↓': '←', '←': '↓', '→': '↑' };
+	const mirrorSlantedLeft: Record<string, Direction> = { '↑': '←', '↓': '→', '←': '↑', '→': '↓' };
 	while (beams.length) {
-		const { direction, xy } = beams.shift()!;
-		const neighbours = Object.entries(matrix.neighboursByString(xy, direction));
+		const { direction, xy: location } = beams.shift()!;
+		const neighbours = Object.entries(matrix.neighboursByString(location, direction));
 		if (!neighbours.length) continue;
-		const [next, tileValue] = neighbours[0];
-		if (!tileValue || visitedFromDirection.has(`${next}-${direction}`)) continue;
-		visited.add(next);
-		visitedFromDirection.add(`${next}-${direction}`);
-		const findNextDirection: Record<string, () => Direction[]> = {
+		const [xy, tileValue] = neighbours[0];
+		if (!tileValue || visitedFromDirection.has(xy + direction)) continue;
+		visited.add(xy);
+		visitedFromDirection.add(xy + direction);
+		const findNextDirections: Record<string, () => Direction[]> = {
 			'.': () => [direction],
 			'|': () => '↑↓'.includes(direction) ? [direction] : ['↑', '↓'],
-			'-': () => '←→'.includes(direction) ? [direction] : ['←', '→'],
-			'/': () => {
-				const dirs: Record<string, Direction> = { '↑': '→', '↓': '←', '←': '↓', '→': '↑' };
-				return [dirs[direction]];
-			},
-			'\\': () => {
-				const dirs: Record<string, Direction> = { '↑': '←', '↓': '→', '←': '↑', '→': '↓' };
-				return [dirs[direction]];
-			},
+			'-': () => '→←'.includes(direction) ? [direction] : ['→', '←'],
+			'/': () => [mirrorSlantedRight[direction]],
+			'\\': () => [mirrorSlantedLeft[direction]],
 		};
-		findNextDirection[tileValue]().forEach((dir) => beams.push({ direction: dir, xy: next }));
+		findNextDirections[tileValue]().forEach((direction) => beams.push({ direction, xy }));
 	}
 	return visited.size;
 };
