@@ -16,8 +16,8 @@ const processBeam = (matrix: Matrix, startBeam: Beam) => {
 		visitedFromDirection.add(`${next}-${direction}`);
 		const findNextDirection: Record<string, () => Direction[]> = {
 			'.': () => [direction],
-			'|': () => direction === '↑' || direction === '↓' ? [direction] : ['↑', '↓'],
-			'-': () => direction === '←' || direction === '→' ? [direction] : ['←', '→'],
+			'|': () => '↑↓'.includes(direction) ? [direction] : ['↑', '↓'],
+			'-': () => '←→'.includes(direction) ? [direction] : ['←', '→'],
 			'/': () => {
 				const dirs: Record<string, Direction> = { '↑': '→', '↓': '←', '←': '↓', '→': '↑' };
 				return [dirs[direction]];
