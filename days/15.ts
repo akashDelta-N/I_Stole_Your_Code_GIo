@@ -16,7 +16,7 @@ export const p2 = (input: string): number => {
 		},
 	);
 	return boxes.reduce((acc, box, y) => {
-		const allLengths = Object.values(box).filter(Boolean);
-		return acc + allLengths.map((focalLength, x) => (y + 1) * (x + 1) * focalLength).sum();
+		const allLengths = Object.values(box);
+		return acc + allLengths.reduce((sum, focalLength, x) => sum + (y + 1) * (x + 1) * focalLength, 0);
 	}, 0);
 };
