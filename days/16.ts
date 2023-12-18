@@ -29,12 +29,12 @@ const processBeam = (matrix: Matrix, startBeam: Beam) => {
 };
 
 export const p1 = (input: string): number => {
-	const matrix = new Matrix(input.splitRows().map((x) => [...x]));
+	const matrix = Matrix.fromInput(input);
 	return processBeam(matrix, { direction: '→', location: 'x-1y0' });
 };
 
 export const p2 = (input: string): number => {
-	const matrix = new Matrix(input.splitRows().map((x) => [...x]));
+	const matrix = Matrix.fromInput(input);
 	const startBeams: Beam[] = [];
 	for (let x = 0; x < matrix.width; x++) {
 		startBeams.push({ direction: '↓', location: `x${x}y-1` });

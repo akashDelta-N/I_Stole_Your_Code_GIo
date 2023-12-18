@@ -60,17 +60,25 @@ class Matrix<T = string> extends Array<Array<T>> {
 		return this[0].length;
 	}
 
-	constructor(matrix: T[][] | string[]) {
-		super(...matrix as T[][])
+	constructor(matrix: T[][]) {
+		super(...matrix)
 	}
 
+	static fromInput<T = string>(input: string, map: (char: string) => T = (char) => char as unknown as T): Matrix<T> {
+		return new Matrix(input.splitRows().map((row) => [...row].map(map)));
+	}
+
+	static coordinate(coordinate: string): [number, number] {
+		const [, x, y] = /x(-?\d+)y(-?\d+)/.exec(coordinate)!;
+		return [Number(x), Number(y)];
+	}
 
 	get(x: number, y: number): T | undefined {
 		return this[y]?.[x];
 	}
 
-	getByString(coord: string): T | undefined {
-		const [, x, y] = /x(-?\d+)y(-?\d+)/.exec(coord)!;
+	getByString(coordinate: string): T | undefined {
+		const [x, y] = Matrix.coordinate(coordinate)
 		return this.get(Number(x), Number(y));
 	}
 
@@ -78,13 +86,13 @@ class Matrix<T = string> extends Array<Array<T>> {
 		this[y][x] = value;
 	}
 
-	setByString(coord: string, value: T): void {
-		const [, x, y] = /x(\d+)y(\d+)/.exec(coord)!;
+	setByString(coordinate: string, value: T): void {
+		const [x, y] = Matrix.coordinate(coordinate)
 		this.set(Number(x), Number(y), value);
 	}
 
-	neighbours(x: number, y: number, dir: Direction = "*"): Record<string, T | string> {
-		const neighbours: Record<string, T | string> = {};
+	neighbours(x: number, y: number, dir: Direction = "*"): Record<string, T> {
+		const neighbours: Record<string, T> = {};
 		if ('*+↕↑'.includes(dir)) neighbours[`x${x}y${y - 1}`] = this.get(x, y - 1)!;
 		if ('*+↕↓'.includes(dir)) neighbours[`x${x}y${y + 1}`] = this.get(x, y + 1)!;
 		if ('*+↔←'.includes(dir)) neighbours[`x${x - 1}y${y}`] = this.get(x - 1, y)!;
@@ -96,8 +104,8 @@ class Matrix<T = string> extends Array<Array<T>> {
 		return neighbours;
 	}
 
-	neighboursByString(coord: string, dir: Direction = "*"): Record<string, T | string> {
-		const [, x, y] = /x(-?\d+)y(-?\d+)/.exec(coord)!;
+	neighboursByString(coordinate: string, dir: Direction = "*"): Record<string, T> {
+		const [x, y] = Matrix.coordinate(coordinate)
 		return this.neighbours(Number(x), Number(y), dir);
 	}
 }
