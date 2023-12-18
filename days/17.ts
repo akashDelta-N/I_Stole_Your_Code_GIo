@@ -10,9 +10,9 @@ export const processInput = (input: string, maxMove: number, condition: (crucibl
 		{ location: 'x0y0', direction: '→', steps: 0, heat: 0 },
 		{ location: 'x0y0', direction: '↓', steps: 0, heat: 0 },
 	];
-	let visited = new Set<string>();
+	const visited = new Set<string>();
 	for (let i = 0;; i++) {
-		let nextCrucibles: Crucible[] = [];
+		const nextCrucibles: Crucible[] = [];
 		if (
 			crucibles.find((crucible: Crucible) => {
 				if (--crucible.heat > 0) return !nextCrucibles.push(crucible);
