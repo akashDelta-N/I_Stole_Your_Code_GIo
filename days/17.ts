@@ -13,25 +13,24 @@ export const processInput = (input: string, maxMove: number, condition: (crucibl
 	const visited = new Set<string>();
 	for (let i = 0;; i++) {
 		const nextCrucibles: Crucible[] = [];
-		if (
-			crucibles.find((crucible: Crucible) => {
-				if (--crucible.heat > 0) return !nextCrucibles.push(crucible);
-				const [x, y] = Matrix.coordinate(crucible.location);
-				if (x < 0 || y < 0 || x >= matrix.width || y >= matrix.length) return false;
-				if (x === matrix.width - 1 && y === matrix.length - 1 && condition(crucible)) return true;
-				const neighbours = Object.entries(matrix.neighbours(x, y, crucible.direction));
-				if (!neighbours.length) return false;
-				const [location, heat] = neighbours[0];
-				const key = `${location}${crucible.direction}${++crucible.steps}`;
-				if (visited.has(key)) return false;
-				visited.add(key);
-				if (crucible.steps < maxMove) nextCrucibles.push({ ...crucible, location, heat });
-				if (!condition(crucible)) return false;
-				const a: Crucible = { location, direction: clockwise[crucible.direction], steps: 0, heat };
-				const b: Crucible = { location, direction: antiClockwise[crucible.direction], steps: 0, heat };
-				nextCrucibles.push(a, b);
-			})
-		) return i;
+		const matrixEnd = (crucible: Crucible) => {
+			if (--crucible.heat > 0) return !nextCrucibles.push(crucible);
+			const [x, y] = Matrix.coordinate(crucible.location);
+			if (x < 0 || y < 0 || x >= matrix.width || y >= matrix.length) return false;
+			if (x === matrix.width - 1 && y === matrix.length - 1 && condition(crucible)) return true;
+			const neighbours = Object.entries(matrix.neighbours(x, y, crucible.direction));
+			if (!neighbours.length) return false;
+			const [location, heat] = neighbours[0];
+			const key = `${location}${crucible.direction}${++crucible.steps}`;
+			if (visited.has(key)) return false;
+			visited.add(key);
+			if (crucible.steps < maxMove) nextCrucibles.push({ ...crucible, location, heat });
+			if (!condition(crucible)) return false;
+			const a: Crucible = { location, direction: clockwise[crucible.direction], steps: 0, heat };
+			const b: Crucible = { location, direction: antiClockwise[crucible.direction], steps: 0, heat };
+			nextCrucibles.push(a, b);
+		};
+		if (crucibles.find(matrixEnd)) return i;
 		crucibles = nextCrucibles;
 	}
 };
