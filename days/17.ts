@@ -27,10 +27,9 @@ export const processInput = (input: string, maxMove: number, condition: (crucibl
 				visited.add(key);
 				if (crucible.steps < maxMove) nextCrucibles.push({ ...crucible, location, heat });
 				if (!condition(crucible)) return false;
-				nextCrucibles.push(
-					{ location, direction: clockwise[crucible.direction], steps: 0, heat },
-					{ location, direction: antiClockwise[crucible.direction], steps: 0, heat },
-				);
+				const a: Crucible = { location, direction: clockwise[crucible.direction], steps: 0, heat };
+				const b: Crucible = { location, direction: antiClockwise[crucible.direction], steps: 0, heat };
+				nextCrucibles.push(a, b);
 			})
 		) return i;
 		crucibles = nextCrucibles;
