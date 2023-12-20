@@ -16,7 +16,7 @@ export const processInput = (input: string, maxMove: number, condition: (crucibl
 		const matrixEnd = (crucible: Crucible) => {
 			if (--crucible.heat > 0) return !nextCrucibles.push(crucible);
 			const [x, y] = Matrix.coordinate(crucible.location);
-			if (x < 0 || y < 0 || x >= matrix.width || y >= matrix.length) return false;
+			if (x < 0 || x >= matrix.width || y < 0 || y >= matrix.length) return false;
 			if (x === matrix.width - 1 && y === matrix.length - 1 && condition(crucible)) return true;
 			const neighbours = Object.entries(matrix.neighbours(x, y, crucible.direction));
 			if (!neighbours.length) return false;
