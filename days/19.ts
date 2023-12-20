@@ -63,16 +63,16 @@ export const p2 = (input: string): number => {
 			if (range.workflow === 'R') return [];
 
 			return workflows[range.workflow].map(({ category, operator, value, workflow }) => {
-				const matchedRange = { ...structuredClone(range), workflow };
+				const clonedRange = { ...structuredClone(range), workflow };
 				if (operator === '<') {
-					matchedRange[category].to = Math.min(matchedRange[category].to, value - 1);
+					clonedRange[category].to = Math.min(clonedRange[category].to, value - 1);
 					range[category].from = Math.max(range[category].from, value);
 				}
 				if (operator === '>') {
-					matchedRange[category].from = Math.max(matchedRange[category].from, value + 1);
+					clonedRange[category].from = Math.max(clonedRange[category].from, value + 1);
 					range[category].to = Math.min(range[category].to, value);
 				}
-				return matchedRange;
+				return clonedRange;
 			});
 		});
 	}
