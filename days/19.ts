@@ -34,7 +34,7 @@ export const p1 = (input: string): number => {
 	const acceptedPart = (part: Part, workflowName: string): boolean => {
 		if (workflowName === 'A') return true;
 		if (workflowName === 'R') return false;
-		for (let { category, operator, value, workflow } of workflows[workflowName]) {
+		for (const { category, operator, value, workflow } of workflows[workflowName]) {
 			const smallerThan = operator === '<' && part[category] < value;
 			const largerThan = operator === '>' && part[category] > value;
 			if (!operator || smallerThan || largerThan) return acceptedPart(part, workflow);
