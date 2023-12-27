@@ -1,6 +1,6 @@
 import { assertEquals } from 'std/assert/assert_equals.ts';
 import '../extension-methods.ts';
-import { p1, p2 } from './21.ts';
+import { p1 } from './21.ts';
 
 const input = '' +
 	'...........\n' +
