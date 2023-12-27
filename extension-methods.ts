@@ -61,16 +61,21 @@ class Matrix<T = string> extends Array<Array<T>> {
 	}
 
 	constructor(matrix: T[][]) {
-		super(...matrix)
+		super(...matrix);
 	}
 
 	static fromInput<T = string>(input: string, map: (char: string) => T = (char) => char as unknown as T): Matrix<T> {
-		return new Matrix(input.splitRows().map((row) => [...row].map(map)));
+		const matrix = input.splitRows().map((row) => [...row].map(map))
+		return new Matrix(matrix);
 	}
 
 	static coordinate(coordinate: string): [number, number] {
 		const [, x, y] = /x(-?\d+)y(-?\d+)/.exec(coordinate)!;
 		return [Number(x), Number(y)];
+	}
+
+	flatten(): T[] {
+		return this.reduce((a, b) => a.concat(b), []);
 	}
 
 	get(x: number, y: number): T | undefined {

@@ -27,14 +27,16 @@ const file = await import(`./days/${dayCode}.ts`);
 const response = await fetch(`https://adventofcode.com/${ADVENT_YEAR}/day/${day}/input`, {headers: {cookie: `session=${ADVENT_SESSION_TOKEN}`}});
 if (!response.ok) throw new Error('Error while fetching input, maybe your session token is expired?');
 const input = await response.text();
-const runPart = (partNumber?: number): void => {
+const runPart = async (partNumber?: number): Promise<void> => {
 	if (!(!part || partNumber === part)) return;
 	const timerStart = performance.now();
 	const result = file[`p${partNumber}`](input);
+	const actualResult = result instanceof Promise ? await result : result;
 	const timerEnd = performance.now() - timerStart;
 	console.log(ul(blue(`Running day ${day} part ${partNumber}:`)));
-	console.log(`${yellow('[Answer]\t')} ${result}`);
+	console.log(`${yellow('[Answer]\t')} ${actualResult}`);
 	console.log(`${yellow('[Time]\t\t')} ~${timerEnd.toFixed(3)}ms\n`);
 }
-runPart(1);
-runPart(2);
+await runPart(1);
+await runPart(2);
+Deno.exit();
