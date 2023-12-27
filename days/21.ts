@@ -8,10 +8,10 @@ export const p1 = (input: string, steps = 64) => {
 	const startIndex = input.replace(/\s+/g, '').indexOf('S');
 	const startX = startIndex % garden.width;
 	const startY = Math.floor(startIndex / garden.width);
-	let stepper = [`x${startX}y${startY}`];
+	let plotsToVisit = [`x${startX}y${startY}`];
 	for (let step = 1; step <= steps; step++) {
-		stepper = stepper.flatMap((walker) =>
-			Object.entries(garden.neighboursByString(walker, '+')).filter(([, plot]) =>
+		plotsToVisit = plotsToVisit.flatMap((plotToVisit) =>
+			Object.entries(garden.neighboursByString(plotToVisit, '+')).filter(([, plot]) =>
 				plot?.symbol !== '#' && (plot.visited ??= step) === step
 			).map(([location]) => location)
 		);
