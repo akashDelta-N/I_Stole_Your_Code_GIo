@@ -13,7 +13,7 @@ export const p1 = (input: string): number => {
 }
 
 export const p2 = (input: string): number => {
-  const matches = input.match(/(mul\(\d+,\d+\)|do\(\)|don't\(\))/gm);
+  const matches = input.match(/(mul\(\d+,\d+\)|do(n't)?\(\))/gm);
   let exec = true;
   const result = matches?.map(match => {
     if (match === 'do()') {
