@@ -6,7 +6,7 @@ export const p1 = (input: string): number => {
   const safeLines = lines.filter(line => {
     const isLineIncreasing = line.every((x, i, arr) => i === 0 || x > arr[i - 1]);
     const isLineDecreasing = line.every((x, i, arr) => i === 0 || x < arr[i - 1]);
-    const isDiffSafe = line.every((x, i, arr) => i === 0 || Math.abs(x - arr[i - 1]) <= 3);
+    const isDiffSafe = line.every((x, i, arr) => i === 0 || (Math.abs(x - arr[i - 1]) <= 3 && Math.abs(x - arr[i - 1]) >= 1));
     return (isLineIncreasing || isLineDecreasing) && isDiffSafe;
   });
 
@@ -23,7 +23,7 @@ export const p2 = (input: string): number => {
 
       const isLineIncreasing = newLine.every((x, i, arr) => i === 0 || x > arr[i - 1]);
       const isLineDecreasing = newLine.every((x, i, arr) => i === 0 || x < arr[i - 1]);
-      const isDiffSafe = newLine.every((x, i, arr) => i === 0 || Math.abs(x - arr[i - 1]) <= 3);
+      const isDiffSafe = newLine.every((x, i, arr) => i === 0 || (Math.abs(x - arr[i - 1]) <= 3 && Math.abs(x - arr[i - 1]) >= 1));
       if ((isLineIncreasing || isLineDecreasing) && isDiffSafe) {
         return true;
       }
