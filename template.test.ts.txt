@@ -2,7 +2,7 @@ import {assertEquals} from "std/assert/assert_equals.ts";
 import '../extension-methods.ts';
 import {p1, p2} from './{DAY-NUMBER}.ts';
 
-const input = '';
+const input = ``;
 
 Deno.test('it should run the first part of day {DAY-NUMBER} correctly', () => {
   const result = p1(input);
