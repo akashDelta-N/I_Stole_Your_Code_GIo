@@ -1,10 +1,10 @@
 import '../extension-methods.ts';
 
 export const p1 = (input: string): number => {
-  const matches = input.match(/mul\([0-9]*,[0-9]*\)/gm);
+  const matches = input.match(/mul\(\d+,\d+\)/gm);
   
   const result = matches?.map(match => {
-    const numbers = match.match(/[0-9]+/g);
+    const numbers = match.match(/\d+/g);
     if (numbers) {
       return Number(numbers[0]) * Number(numbers[1]);
     }
@@ -13,7 +13,7 @@ export const p1 = (input: string): number => {
 }
 
 export const p2 = (input: string): number => {
-  const matches = input.match(/(mul\([0-9]*,[0-9]*\)|do\(\)|don't\(\))/gm);
+  const matches = input.match(/(mul\(\d+,\d+\)|do\(\)|don't\(\))/gm);
   let exec = true;
   const result = matches?.map(match => {
     if (match === 'do()') {
@@ -23,7 +23,7 @@ export const p2 = (input: string): number => {
       exec = false;
     }
     if (exec) {
-      const numbers = match.match(/[0-9]+/g);
+      const numbers = match.match(/\d+/g);
       if (numbers) {
         return Number(numbers[0]) * Number(numbers[1]);
       }
